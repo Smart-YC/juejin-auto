@@ -1,23 +1,25 @@
-/**
- * Created by huangqihong on 2022/1/8.
- * 推送server酱的通知
+/*
+ * @Author: songyingchun
+ * @Date: 2022-04-14 18:05:16
+ * @Description: 
  */
 
 const axios = require('axios');
 
-function send({ pushKey, title, desp }) {
+function send({ openid, title, desc }) {
   return new Promise((resolve, reject) => {
 
-    console.log("server酱开始推送...");
+    console.log(openid, title, desc);
     const option = {
-      url: `https://sctapi.ftqq.com/${pushKey}.send`,
+      url: `https://send-wx-message-1gv7v5ge01556012-1259694301.ap-guangzhou.app.tcloudbase.com/express-starter/sendMessage`,
       method: "post",
       headers: {
         "Content-Type": "application/json",
       },
-      params: {
+      data: {
+        openid,
         title,
-        desp,
+        desc,
       },
     };
     axios(option).then((res) => {
@@ -31,14 +33,14 @@ function send({ pushKey, title, desp }) {
 
 const config = require('./config.js');
 
-let msg = '掘金：\n';
+let msg = '';
 module.exports = function bot(message) {
-  if(config.SERVERID) {
+  if(config.OPENID) {
     msg += message + '\n';
     send({
-      pushKey: config.SERVERID, // 企业 ID
-      title: '掘金', // title
-      desp: msg, // desp
+      openid: config.OPENID, // 企业 ID
+      title: '掘金自动打卡通知', // title
+      desc: msg, // desp
     }).catch((error) => {
       console.log(`发送失败 => ${error}`);
     });

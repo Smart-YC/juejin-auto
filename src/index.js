@@ -29,11 +29,12 @@ if (!COOKIE) {
         const dipResult = await jueJinApi.dipLucky(dipParams);
         await jueJinApi.checkIn(); // 抽奖一次
         const drawResult = await jueJinApi.drawApi();
-        message(`抽奖成功，获得：${drawResult.lottery_name}; 获取幸运点${dipResult.dip_value}, 当前幸运点${dipResult.total_value}`);
+        message(`今天${isCheckInToday ? '已经完成' : '尚未进行'}签到 ✍️ \n 每日免费抽奖成功 获得：${drawResult.lottery_name}; \n 
+        获取幸运点${dipResult.dip_value}, 当前幸运点${dipResult.total_value + dipResult.dip_value}`);
       } else {
         const {cont_count, sum_count} = await jueJinApi.checkCount()
         console.log('')
-        console.log(`✍️  已连续签到${cont_count}天, 签到总数${sum_count}天 ✍️`);
+        message(`✍️  今天${isCheckInToday ? '已经完成' : '尚未进行'}签到  \n ✍️  已连续签到${cont_count}天, 签到总数${sum_count}天 `);
         console.log('')
       }
     } catch (e) {
@@ -120,7 +121,7 @@ if (!(COOKIE && TOKEN)) {
         if (todayDiamond < todayLimitDiamond) {
           playGame()
         } else {
-          message(`今日限制矿石${res.userInfo.todayLimitDiamond},已获取矿石${res.userInfo.todayDiamond}`)
+          message(`✍️  今日限制矿石${res.userInfo.todayLimitDiamond},已获取矿石${res.userInfo.todayDiamond}`)
         }
       });
     } catch (e) {
@@ -137,7 +138,7 @@ if (!(COOKIE && TOKEN)) {
         if (todayDiamond < todayLimitDiamond) {
           playGame()
         } else {
-          message(`今日限制矿石${res.userInfo.todayLimitDiamond},已获取矿石${res.userInfo.todayDiamond}`)
+          message(`✍️  今日限制矿石${res.userInfo.todayLimitDiamond},已获取矿石${res.userInfo.todayDiamond}`)
         }
       });
     }
@@ -150,7 +151,7 @@ if (!(COOKIE && TOKEN)) {
         time: time,
         // eslint-disable-next-line max-len
       },
-      "-----BEGIN EC PARAMETERS-----\nBggqhkjOPQMBBw==\n-----END EC PARAMETERS-----\n-----BEGIN EC PRIVATE KEY-----\nMHcCAQEEIDB7KMVQd+eeKt7AwDMMUaT7DE3Sl0Mto3LEojnEkRiAoAoGCCqGSM49\nAwEHoUQDQgAEEkViJDU8lYJUenS6IxPlvFJtUCDNF0c/F/cX07KCweC4Q/nOKsoU\nnYJsb4O8lMqNXaI1j16OmXk9CkcQQXbzfg==\n-----END EC PRIVATE KEY-----\n",
+      "-----BEGIN EC PARAMETERS-----\nBggqhkjOPQMBBw==\n-----END EC PARAMETERS-----\n-----BEGIN EC PRIVATE KEY-----\nMHcCAQEEIDB7KMVQd+eeKt7AwDMMUaT7DE3Sl0Mto3LEojnEkRiAoAoGCCqGSM49\nAwEHoUQDQgAEEkViJDU8lYJUenS6IxPlvFJtUCDNF0c/F/cX07KCweC4Q\nOKsoU\nnYJsb4O8lMqNXaI1j16OmXk9CkcQQXbzfg==\n-----END EC PRIVATE KEY-----\n",
       {
         algorithm: "ES256",
         expiresIn: 2592e3,
