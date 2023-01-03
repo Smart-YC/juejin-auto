@@ -49,7 +49,8 @@ let juejinUid = '';
 if (!(COOKIE && TOKEN)) {
   message('获取不到游戏必须得COOKIE和TOKEN，请检查设置')
 } else {
-  // if (isCheckInToday) return false
+  // isCheckInToday
+  if (true) return false // 挖矿这个失败，估计得重新写逻辑
   let gameId = ''; // 发指令必须得gameId
   let deep = 0;
   let todayDiamond = 0;
