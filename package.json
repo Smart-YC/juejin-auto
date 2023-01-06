@@ -12,6 +12,7 @@
   "main": "./src/index",
   "scripts": {
     "start": "node ./src/index",
+    "serve": "node ./src/love",
     "test:mining": "node ./test/test-mining",
     "test:juejin": "node ./test/test-juejin"
   },

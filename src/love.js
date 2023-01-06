@@ -1,10 +1,12 @@
-/**
- * Created by huangqihong on 2022/01/07 23:35:00
+/*
+ * @Author: songyingchun
+ * @Date: 2022-04-14 18:05:16
+ * @Description: 媳妇的自动签到
  */
 // const dotEnv = require('dotenv');
 // dotEnv.config('./env');
 
-const { COOKIE, TOKEN } = require('./utils/config.js');
+const { COOKIE, TOKEN } = require('./utils/loveConfig.js');
 const message = require('./utils/message');
 const jueJinApi = require('./api/juejin')();
 const miningApi = require('./api/mining')();
@@ -13,7 +15,7 @@ const firstData = require('./utils/first');
 let isCheckInToday = false
 
 if (!COOKIE) {
-  message('获取不到cookie，请检查设置')
+  message('love 获取不到cookie，请检查设置')
 } else {
   async function junJin() {
     try {
@@ -21,7 +23,7 @@ if (!COOKIE) {
       const data = await jueJinApi.queryCheck()
       isCheckInToday = data
       console.log('')
-      console.log(`今天${isCheckInToday ? '已经完成' : '尚未进行'}签到`);
+      console.log(`love 今天${isCheckInToday ? '已经完成' : '尚未进行'}签到`);
       console.log('')
       if (!isCheckInToday) {
         const luckyResult = await jueJinApi.luckyApi() // 幸运用户沾喜气
@@ -29,16 +31,16 @@ if (!COOKIE) {
         const dipResult = await jueJinApi.dipLucky(dipParams);
         await jueJinApi.checkIn(); // 抽奖一次
         const drawResult = await jueJinApi.drawApi();
-        message(`今天${isCheckInToday ? '已经完成' : '尚未进行'}签到 \n 每日免费抽奖成功 获得：${drawResult.lottery_name}; \n 
+        message(`love 今天${isCheckInToday ? '已经完成' : '尚未进行'}签到  \n 每日免费抽奖成功 获得：${drawResult.lottery_name}; \n 
         获取幸运点${dipResult.dip_value}, 当前幸运点${dipResult.total_value + dipResult.dip_value}`);
       } else {
         const {cont_count, sum_count} = await jueJinApi.checkCount()
         console.log('')
-        message(` 今天${isCheckInToday ? '已经完成' : '尚未进行'}签到  \n   已连续签到${cont_count}天, 签到总数${sum_count}天 `);
+        message(`love 今天${isCheckInToday ? '已经完成' : '尚未进行'}签到  \n  已连续签到${cont_count}天, 签到总数${sum_count}天 `);
         console.log('')
       }
     } catch (e) {
-      message(`有异常，请手动操作,${e.message}`);
+      message(`love 有异常，请手动操作,${JSON.stringify(e)}`);
     }
   }
   junJin().then(() => { });
@@ -47,7 +49,7 @@ if (!COOKIE) {
 let juejinUid = '';
 
 if (!(COOKIE && TOKEN)) {
-  message('获取不到游戏必须得COOKIE和TOKEN，请检查设置')
+  message('love获取不到游戏必须得COOKIE和TOKEN，请检查设置')
 } else {
   let gameId = ''; // 发指令必须得gameId
   let deep = 0;
@@ -120,7 +122,7 @@ if (!(COOKIE && TOKEN)) {
         if (todayDiamond < todayLimitDiamond) {
           playGame()
         } else {
-          message(`今日限制矿石${res.userInfo.todayLimitDiamond},已获取矿石${res.userInfo.todayDiamond}`)
+          message(`love 今日限制矿石${res.userInfo.todayLimitDiamond},已获取矿石${res.userInfo.todayDiamond}`)
         }
       });
     } catch(e) {
@@ -137,7 +139,7 @@ if (!(COOKIE && TOKEN)) {
         if (todayDiamond < todayLimitDiamond) {
           playGame()
         } else {
-          message(`今日限制矿石${res.userInfo.todayLimitDiamond},已获取矿石${res.userInfo.todayDiamond}`)
+          message(`love 今日限制矿石${res.userInfo.todayLimitDiamond},已获取矿石${res.userInfo.todayDiamond}`)
         }
       });
     }
