@@ -31,13 +31,13 @@ jobs:
           CI: true
 
       # 运行脚本1
-      - name: 运行脚本
+      - name: 运行脚本1
         run: |
          npm start 
         env:
           CI: true
       # 运行脚本2
-      - name: 运行脚本
+      - name: 运行脚本2
         run: |
           npm serve
         env:
