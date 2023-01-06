@@ -18,27 +18,27 @@ if (!COOKIE) {
   async function junJin() {
     try {
       // 先执行签到、抽奖以及沾喜气
-      const data = await jueJinApi.queryCheck()
+      const data = await jueJinApi.queryCheck(COOKIE)
       isCheckInToday = data
       console.log('')
       console.log(`今天${isCheckInToday ? '已经完成' : '尚未进行'}签到`);
       console.log('')
       if (!isCheckInToday) {
-        const luckyResult = await jueJinApi.luckyApi() // 幸运用户沾喜气
+        const luckyResult = await jueJinApi.luckyApi(COOKIE) // 幸运用户沾喜气
         const dipParams = { lottery_history_id: luckyResult.lotteries[0].history_id };
-        const dipResult = await jueJinApi.dipLucky(dipParams);
+        const dipResult = await jueJinApi.dipLucky(dipParams, COOKIE);
         await jueJinApi.checkIn(); // 抽奖一次
-        const drawResult = await jueJinApi.drawApi();
+        const drawResult = await jueJinApi.drawApi(COOKIE);
         message(`今天${isCheckInToday ? '已经完成' : '尚未进行'}签到 \n 每日免费抽奖成功 获得：${drawResult.lottery_name}; \n 
         获取幸运点${dipResult.dip_value}, 当前幸运点${dipResult.total_value + dipResult.dip_value}`);
       } else {
-        const {cont_count, sum_count} = await jueJinApi.checkCount()
+        const {cont_count, sum_count} = await jueJinApi.checkCount(COOKIE)
         console.log('')
         message(` 今天${isCheckInToday ? '已经完成' : '尚未进行'}签到  \n   已连续签到${cont_count}天, 签到总数${sum_count}天 `);
         console.log('')
       }
     } catch (e) {
-      message(`有异常，请手动操作,${e.message}`);
+      message(`有异常，请手动操作,${JSON.stringify(e)}`);
     }
   }
   junJin().then(() => { });
@@ -56,10 +56,10 @@ if (!(COOKIE && TOKEN)) {
   async function getInfo() {
     const time = new Date().getTime();
     console.log(todayDiamond, todayLimitDiamond);
-    const userInfo = await miningApi.getUser();
+    const userInfo = await miningApi.getUser(COOKIE);
     juejinUid = userInfo.user_id;
 
-    const resInfo = await miningApi.getInfo(juejinUid, time);
+    const resInfo = await miningApi.getInfo(juejinUid, time, TOKEN);
     deep = resInfo.gameInfo ? resInfo.gameInfo.deep : 0;
     gameId = resInfo.gameInfo ? resInfo.gameInfo.gameId : 0;
     todayDiamond = resInfo.userInfo.todayDiamond || 0;
@@ -86,7 +86,7 @@ if (!(COOKIE && TOKEN)) {
       const startParams = {
         roleId: 3,
       };
-      const startData = await miningApi.start(startParams, juejinUid, startTime);
+      const startData = await miningApi.start(startParams, juejinUid, startTime, TOKEN);
       await sleep(3000);
       console.log('startData', startData);
       gameId = startData.gameId;
@@ -96,7 +96,7 @@ if (!(COOKIE && TOKEN)) {
         command: firstData.command,
       };
       const xGameId = getXGameId(gameId);
-      const commandData = await miningApi.command(commandParams, juejinUid, commandTime, xGameId);
+      const commandData = await miningApi.command(commandParams, juejinUid, commandTime, xGameId, TOKEN);
       deep = commandData.curPos.y;
       await sleep(3000);
       console.log('commandData', commandData);
@@ -105,7 +105,7 @@ if (!(COOKIE && TOKEN)) {
       const overParams = {
         isButton: 1,
       };
-      const overData = await miningApi.over(overParams, juejinUid, overTime);
+      const overData = await miningApi.over(overParams, juejinUid, overTime, TOKEN);
       await sleep(3000);
       console.log('overData', overData);
       deep = overData.deep;
@@ -113,7 +113,7 @@ if (!(COOKIE && TOKEN)) {
       const mapTime = +new Date().getTime();
       if (deep < 500) {
         await sleep(3000);
-        await miningApi.freshMap({}, juejinUid, mapTime);
+        await miningApi.freshMap({}, juejinUid, mapTime, TOKEN);
       }
       await sleep(3000);
       await getInfo().then((res) => {
@@ -131,7 +131,7 @@ if (!(COOKIE && TOKEN)) {
       const overParams = {
         isButton: 1,
       };
-      await miningApi.over(overParams, juejinUid, overTime);
+      await miningApi.over(overParams, juejinUid, overTime, TOKEN);
       await sleep(3000);
       await getInfo().then((res) => {
         if (todayDiamond < todayLimitDiamond) {

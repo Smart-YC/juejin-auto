@@ -1,10 +1,9 @@
 const request = require('../utils/request');
-const { COOKIE } = require('../utils/config.js');
 
 module.exports = function () {
   return {
     /* 查询是否签到 */
-    queryCheck: function () {
+    queryCheck: function (COOKIE) {
       return request({
         url: 'https://api.juejin.cn/growth_api/v1/get_today_status',
         method: 'get',
@@ -14,7 +13,7 @@ module.exports = function () {
       });
     },
     /* 查询是否签到 */
-    checkCount: function () {
+    checkCount: function (COOKIE) {
       return request({
         url: 'https://api.juejin.cn/growth_api/v1/get_counts',
         method: 'get',
@@ -26,7 +25,7 @@ module.exports = function () {
     /**
      * 签到
      */
-    checkIn: function () {
+    checkIn: function (COOKIE) {
       return request({
         url: 'https://api.juejin.cn/growth_api/v1/check_in',
         method: 'post',
@@ -38,7 +37,7 @@ module.exports = function () {
     /**
      * 抽奖
      */
-    drawApi: function () {
+    drawApi: function (COOKIE) {
       return request({
         url: 'https://api.juejin.cn/growth_api/v1/lottery/draw',
         method: 'post',
@@ -48,7 +47,7 @@ module.exports = function () {
       });
     },
     /* 幸运用户 */
-    luckyApi: function () {
+    luckyApi: function (COOKIE) {
       return request({
         url: 'https://api.juejin.cn/growth_api/v1/lottery_history/global_big',
         method: 'post',
@@ -59,7 +58,7 @@ module.exports = function () {
       })
     },
     /* 沾一沾 */
-    dipLucky: function (params) {
+    dipLucky: function (params, COOKIE) {
       return request({
         url: 'https://api.juejin.cn/growth_api/v1/lottery_lucky/dip_lucky?aid=2608',
         method: 'post',

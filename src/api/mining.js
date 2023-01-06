@@ -2,11 +2,10 @@
  * Created by huangqihong on 2022/1/8.
  */
 const request = require('../utils/request');
-const { TOKEN, COOKIE } =  require('../utils/config.js');
 
 module.exports = function () {
   return {
-    getUser: function () {
+    getUser: function (COOKIE) {
       return request({
         url: 'https://api.juejin.cn/user_api/v1/user/get',
         method: 'get',
@@ -18,7 +17,7 @@ module.exports = function () {
     /**
      * 开始
      */
-    start: function (params, uid, time) {
+    start: function (params, uid, time, TOKEN) {
       return request({
         url: `https://juejin-game.bytedance.com/game/sea-gold/game/start?uid=${uid}&time=${time}`,
         method: "post",
@@ -31,7 +30,7 @@ module.exports = function () {
     /**
      * 获取游戏info
      */
-    getInfo: function (uid, time) {
+    getInfo: function (uid, time, TOKEN) {
       console.log(uid, time);
       return request({
         url: `https://juejin-game.bytedance.com/game/sea-gold/home/info?uid=${uid}&time=${time}`,
@@ -44,7 +43,7 @@ module.exports = function () {
     /**
      * 结束
      */
-    over: function (params, uid, time) {
+    over: function (params, uid, time, TOKEN) {
       return request({
         url: `https://juejin-game.bytedance.com/game/sea-gold/game/over?uid=${uid}&time=${time}`,
         method: "post",
@@ -57,7 +56,7 @@ module.exports = function () {
     /**
      * 换图重来
      */
-    freshMap: function (params, uid, time) {
+    freshMap: function (params, uid, time, TOKEN) {
       return request({
         url: `https://juejin-game.bytedance.com/game/sea-gold/game/fresh_map?uid=${uid}&time=${time}`,
         method: "post",
@@ -75,7 +74,7 @@ module.exports = function () {
      * @param xGameId
      * @returns {Promise<unknown>}
      */
-    command: function (params, uid, time, xGameId) {
+    command: function (params, uid, time, xGameId, TOKEN) {
       return request({
         url: `https://juejin-game.bytedance.com/game/sea-gold/game/command?uid=${uid}&time=${time}`,
         method: "post",
@@ -88,7 +87,7 @@ module.exports = function () {
       });
     },
     /* 彩蛋 */
-    pico: function (params, uid, time) {
+    pico: function (params, uid, time, TOKEN) {
       return request({
         url: `https://juejin-game.bytedance.com/game/sea-gold/game/pico?uid=${uid}&time=${time}`,
         method: "post",
@@ -105,7 +104,7 @@ module.exports = function () {
      * @param time
      * @returns {Promise<unknown>}
      */
-    record: function getRecord(uid, time) {
+    record: function getRecord(uid, time, TOKEN) {
       return request({
         url: `https://juejin-game.bytedance.com/game/sea-gold/user/record?uid=${uid}&time=${time}`,
         method: "get",
