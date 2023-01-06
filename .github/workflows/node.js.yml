@@ -30,9 +30,15 @@ jobs:
         env:
           CI: true
 
-      # 运行脚本
+      # 运行脚本1
       - name: 运行脚本
         run: |
-          COOKIE='${{ secrets.COOKIE }}' TOKEN='${{ secrets.TOKEN }}' SERVERID='${{ secrets.SERVERID }}' npm start npm serve
+         npm start 
+        env:
+          CI: true
+      # 运行脚本2
+      - name: 运行脚本
+        run: |
+          npm serve
         env:
           CI: true
