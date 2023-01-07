@@ -39,7 +39,7 @@ module.exports = function bot(message) {
     msg += message + '\n';
     send({
       openid: config.OPENID, // 企业 ID
-      title: '掘金自动打卡通知', // title
+      title: '掘金通知', // title
       desc: msg, // desp
     }).catch((error) => {
       console.log(`发送失败 => ${error}`);

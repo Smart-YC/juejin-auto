@@ -4,14 +4,16 @@
 // const dotEnv = require('dotenv');
 // dotEnv.config('./env');
 
-const { COOKIE, TOKEN } = require('./utils/config.js');
+const { COOKIE, TOKEN, AID, UUID } = require('./utils/config.js');
 const message = require('./utils/message');
 const jueJinApi = require('./api/juejin')();
 const miningApi = require('./api/mining')();
+const bugApi = require('./api/bugFix')();
 const jwt = require('jsonwebtoken');
 const firstData = require('./utils/first');
 let isCheckInToday = false
 
+// 打卡
 if (!COOKIE) {
   message('获取不到cookie，请检查设置')
 } else {
@@ -43,7 +45,7 @@ if (!COOKIE) {
   }
   junJin().then(() => { });
 }
-
+// 深海挖矿
 let juejinUid = '';
 
 if (!(COOKIE && TOKEN)) {
@@ -162,11 +164,26 @@ if (!(COOKIE && TOKEN)) {
     );
   }
 }
-
-
-
-
-
+// 修复bug
+async function bugs() {
+  let desp = ''
+  // 查询bug数量
+  const res_bugList = await bugApi.getBugList(AID, UUID, COOKIE)
+  if (res_bugList.length) {
+    // 收集bug
+    const res_collectBugByList = await bugApi.collectBugByList(AID, UUID, COOKIE, res_bugList)
+    if (res_collectBugByList.err_no == 1001) {
+      desp = `收集${res_bugList.length}个bug成功;`
+    } else {
+      desp = '收集bug失败'
+    }
+  }
+  // 参与活动
+  const res_joinBugFix = await bugApi.joinBugFix(AID, UUID, COOKIE)
+  desp += "love bugfix 参与成功"
+  message(desp)
+}
+bugs()
 
 
 
