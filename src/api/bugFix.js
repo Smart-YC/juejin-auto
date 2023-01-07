@@ -85,26 +85,26 @@ module.exports = function () {
         joinBugFix: async function (aid, uuid, cookie) {
             let msg = ""
             const res_bugFixGameInfo = await this.getBugFixGameInfo(aid, uuid, cookie)
-            msg = res_bugFixGameInfo.err_msg
-            if (res_bugFixGameInfo.err_no == 0 && res_bugFixGameInfo.data.award_status == 1) {
+            msg = res_bugFixGameInfo.err_msg || ''
+            if (true) {
                 // 活动进行中
-                const res_bugFixGameUserInfo = await this.getBugFixGameUserInfo(aid, uuid, cookie, { competition_id: res_bugFixGameInfo.data.competition_id })
+                const res_bugFixGameUserInfo = await this.getBugFixGameUserInfo(aid, uuid, cookie, { competition_id: res_bugFixGameInfo.competition_id })
                 // 用户已参与的bug数：bug_fix_num
                 // 用户剩余的bug数：user_own_bug
-                const bug_fix_num = res_bugFixGameUserInfo.data.bug_fix_num
-                const user_own_bug = res_bugFixGameUserInfo.data.user_own_bug
+                const bug_fix_num = res_bugFixGameUserInfo.bug_fix_num
+                const user_own_bug = res_bugFixGameUserInfo.user_own_bug
                 if (bug_fix_num < 10 && user_own_bug >= 10) {
-                    const res_bugFix = await this.bugFix(aid, uuid, cookie, { competition_id: res_bugFixGameInfo.data.competition_id })
+                    const res_bugFix = await this.bugFix(aid, uuid, cookie, { competition_id: res_bugFixGameInfo.competition_id })
                     if (res_bugFix.err_no == 0) {
                         return {
                             err_no: 0,
-                            err_msg: res_bugFixGameInfo.data.competition_name
+                            err_msg: res_bugFixGameInfo.competition_name
                         }
                     }
                     msg = res_bugFix.err_msg
                 }
 
-            } else if (res_bugFixGameInfo.err_no == 0 && res_bugFixGameInfo.data.award_status == 0) {
+            } else  {
                 msg = "活动已结束"
             }
             return {

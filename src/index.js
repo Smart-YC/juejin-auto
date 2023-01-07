@@ -179,7 +179,7 @@ async function bugs() {
     }
   }
   // 参与活动
-  const res_joinBugFix = await bugApi.joinBugFix(AID, UUID, COOKIE)
+  await bugApi.joinBugFix(AID, UUID, COOKIE)
   desp += "love bugfix 参与成功"
   message(desp)
 }
