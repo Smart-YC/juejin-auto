@@ -29,7 +29,7 @@ if (!COOKIE) {
         const luckyResult = await jueJinApi.luckyApi(COOKIE) // 幸运用户沾喜气
         const dipParams = { lottery_history_id: luckyResult.lotteries[0].history_id };
         const dipResult = await jueJinApi.dipLucky(dipParams, COOKIE);
-        await jueJinApi.checkIn(); // 抽奖一次
+        await jueJinApi.checkIn(COOKIE); // 抽奖一次
         const drawResult = await jueJinApi.drawApi(COOKIE);
         message(`今天${isCheckInToday ? '已经完成' : '尚未进行'}签到 \n 每日免费抽奖成功 获得：${drawResult.lottery_name}; \n 
         获取幸运点${dipResult.dip_value}, 当前幸运点${dipResult.total_value + dipResult.dip_value}`);
